@@ -1,0 +1,72 @@
+#1 This data is used to predict whether a person 
+# experienced a serious delinquency or not based on 
+# features like income, number of dependent, loans and 
+# debit ratio, etc.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+#2 
+def loadAndCleanData(fileName):
+	df = pd.read_csv(fileName)
+	df.fillna(value=0,inplace=True)
+	return df
+
+#3
+df2 = loadAndCleanData("creditData.csv")
+
+#4
+def computePDF(targetFeature,data):
+	plot = data[targetFeature].plot.kde()
+	plt.show(plot)
+
+
+#5
+def viewDistribution(col,data):
+	plot2 = data.hist(column = col)
+	plt.show(plot2)
+
+#6
+def viewLogDistribution(col,data):
+	ax = data[col].hist()
+	plt.show()
+
+#7
+def createBins(col,data):
+	dfcut = pd.qcut(data[col],q = 3, duplicates = 'drop')
+	categories = dfcut.cat.categories.tolist()
+	return categories
+
+
+#8
+risks = {}
+def computeDefaultRisk(col, targetFeature, bin, data):
+    count = 0.0
+    count2 = 0.0
+    for i,datapoint in data,itterows():
+         if datapoint[targetFeature] >= bin[0] and datapoint[targetFeature] < bin[1]:
+            count += 1
+            if dataPoints[column]==1:
+                count2+=1
+    totalData = len(data)
+    probability = count/totalData
+    probability2 = count2/totalData
+    print(probability2/probability)
+    return probability2/probability
+#9
+def predictDefaultRisk(df,col):
+	#?
+	
+#10
+newLoans = loadAndCleanData("newLoans.csv")
+
+#11
+#?
+
+#12
+for row in range(len(newLoans.index)):
+	val = predictDefaultRisk(newLoans.iloc[[row]],risks,weights)
+	newLoans['SeriousDlqin2yrs'][row] = val
+
+#13
+computePDF('SeriousDlqin2yrs',df)
